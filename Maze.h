@@ -2,7 +2,7 @@
 
 #include"stack.h"
 #define N 10
-void InitMaze(int *m) //´ÓÎÄ¼şÖĞ¶ÁÈ¡Êı¾İµ½Êı×éMazeÖĞ
+void InitMaze(int *m) //ä»æ–‡ä»¶ä¸­è¯»å–æ•°æ®åˆ°æ•°ç»„Mazeä¸­
 {
 	FILE* fout = fopen("Maze.txt","r");
 	for(int i = 0; i < N;i++)
@@ -26,7 +26,7 @@ struct Pos
 
 };
 
-bool CheckPos(int row,int col,Pos p,int *m)//Ö»ÓĞµ±Êı¾İÎª0µÄÊ±ºò²Å¿¼ÂÇÉÏÏÂ×óÓÒ
+bool CheckPos(int row,int col,Pos p,int *m)//åªæœ‰å½“æ•°æ®ä¸º0çš„æ—¶å€™æ‰è€ƒè™‘ä¸Šä¸‹å·¦å³
 {
 	if((p._row >= 0) &&(p._row < row)&&(p._col >= 0)&&(p._col < col)&&(m[p._row * N+ p._col]==0))
 		return true;
@@ -35,7 +35,7 @@ bool CheckPos(int row,int col,Pos p,int *m)//Ö»ÓĞµ±Êı¾İÎª0µÄÊ±ºò²Å¿¼ÂÇÉÏÏÂ×óÓÒ
 
 bool Through(int row,int col,Pos next)
 {
-	if((next._row == row)||(next._col == col))
+	if((next._row == row-1)||(next._col == col-1))
 		return true;
 	return false;
 }
@@ -46,9 +46,9 @@ bool GetPath(int row,int col,int* m,Stack<Pos>& s,Pos enter)
 	m[enter._row * N+enter._col ] = 2;
 	while(!s.Empty ())
 	{
-		Pos cur = s.Top ();//curÎª×îĞÂÑ¹ÈëÕ»ÖĞµÄÊı¾İ,Õ»¶¥µÄÔªËØ¾ÍÊÇÃÔ¹¬Ä¿Ç°ÄÜ×ßµÄ×îºóÒ»²½
-		Pos next = cur;//Îª½øĞĞÉÏÏÂ×óÓÒÂ·¾¶²âÊÔµÄ±äÁ¿
-		next._row = next._row -1;//Êµ¼ÊÉÏ²¢Ã»ÓĞÓÃµ½ ÃÔ¹¬ÖĞµÄ¿Õ¼ä£¬Ö»ÊÇÓÃµ½ÁËÕ»ÖĞµÄ¿Õ¼ä£¬m[]µÄ×÷ÓÃ½ö½öÊÇĞŞ¸ÄÖµÒÔ¼°½øĞĞÅĞ¶Ï£¬¶ønext¾ÍÊÇÆä×ø±ê£¬½øĞĞÊıÖµ¸Ä±äµÄ×ø±ê£¬pop()ºó£¬next·¢Éú¸Ä±ä£¬´Ó¶øÓ°Ïìm[]ÖĞµÄÊıÖµ·¢ÉúÍ¬ÑùµÄ¸Ä±ä¡£Ã¿Ò»´Îpop'ºóÒªÔÚ½øĞĞÉÏÏÂ×óÓÒµÄ·ÖÎö£¬µÃµ½ÄÜÍ¨¹ıµÄÂ·¾¶¡£
+		Pos cur = s.Top ();//curä¸ºæœ€æ–°å‹å…¥æ ˆä¸­çš„æ•°æ®,æ ˆé¡¶çš„å…ƒç´ å°±æ˜¯è¿·å®«ç›®å‰èƒ½èµ°çš„æœ€åä¸€æ­¥
+		Pos next = cur;//ä¸ºè¿›è¡Œä¸Šä¸‹å·¦å³è·¯å¾„æµ‹è¯•çš„å˜é‡
+		next._row = next._row -1;//å®é™…ä¸Šå¹¶æ²¡æœ‰ç”¨åˆ° è¿·å®«ä¸­çš„ç©ºé—´ï¼Œåªæ˜¯ç”¨åˆ°äº†æ ˆä¸­çš„ç©ºé—´ï¼Œm[]çš„ä½œç”¨ä»…ä»…æ˜¯ä¿®æ”¹å€¼ä»¥åŠè¿›è¡Œåˆ¤æ–­ï¼Œè€Œnextå°±æ˜¯å…¶åæ ‡ï¼Œè¿›è¡Œæ•°å€¼æ”¹å˜çš„åæ ‡ï¼Œpop()åï¼Œnextå‘ç”Ÿæ”¹å˜ï¼Œä»è€Œå½±å“m[]ä¸­çš„æ•°å€¼å‘ç”ŸåŒæ ·çš„æ”¹å˜ã€‚æ¯ä¸€æ¬¡pop'åè¦åœ¨è¿›è¡Œä¸Šä¸‹å·¦å³çš„åˆ†æï¼Œå¾—åˆ°èƒ½é€šè¿‡çš„è·¯å¾„ã€‚
 		if(CheckPos(row,col,next,m))
 		{
 			s.Push (next);
@@ -57,7 +57,7 @@ bool GetPath(int row,int col,int* m,Stack<Pos>& s,Pos enter)
 		}
 		next._row = next._row +1;
 
-		next._row = next._row +1;         //ÏÂ
+		next._row = next._row +1;         //ä¸‹
 		if(CheckPos(row,col,next,m))
 		{
 			s.Push (next);
@@ -66,7 +66,7 @@ bool GetPath(int row,int col,int* m,Stack<Pos>& s,Pos enter)
 		}
 		next._row = next._row -1;
 
-		next._col = next._col -1;         //×ó
+		next._col = next._col -1;         //å·¦
 			if(CheckPos(row,col,next,m))
 		{
 			s.Push (next);
@@ -75,7 +75,7 @@ bool GetPath(int row,int col,int* m,Stack<Pos>& s,Pos enter)
 		}
 		next._col = next._col +1;
 
-		next._col = next._col +1;		 //ÓÒ
+		next._col = next._col +1;		 //å³
 			if(CheckPos(row,col,next,m))
 		{
 			s.Push (next);
@@ -86,7 +86,7 @@ bool GetPath(int row,int col,int* m,Stack<Pos>& s,Pos enter)
 
 		if(Through(row,col,next))
 			return true;
-		s.Pop ();                         //µ±ÉÏÏÂ×óÓÒ¶¼ÎŞ·¨×ßµÄÊ±ºò
+		s.Pop ();                         //å½“ä¸Šä¸‹å·¦å³éƒ½æ— æ³•èµ°çš„æ—¶å€™
 	}
 	return false;
 
